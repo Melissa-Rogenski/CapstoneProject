@@ -20,6 +20,7 @@ CREATE TABLE post (
     	post_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	scheduled_date DATETIME,
 	expiration_date DATETIME,
+	expired BOOLEAN DEFAULT true,
 	title VARCHAR(100),
     	content MEDIUMTEXT,
     	FOREIGN KEY fk_user_Id (user_Id) REFERENCES user(user_Id)
