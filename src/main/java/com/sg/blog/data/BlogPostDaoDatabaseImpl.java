@@ -84,9 +84,24 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
 
         @Override
         public Post mapRow(ResultSet rs, int i) throws SQLException {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        	        	 Post pt = new Post();
+        	            pt.setPostId(rs.getInt("post_Id"));
+        	            pt.setUserId(rs.getInt("user_Id"));
+        	            pt.setPostTime(rs.getTimestamp("post_time").toLocalDateTime());
+        	            pt.setScheduledDate(rs.getTimestamp("scheduled_date").toLocalDateTime());
+        	            pt.setExpirationDate(rs.getTimestamp("expiration_date").toLocalDateTime());
+        	            pt.setTitle(rs.getString("title"));
+        	            pt.setContent(rs.getString("content"));
+        	             return pt;
+        	        
+        	             
+        	         
+       
+        	     	
+             }
+         
         }
     
     }
     
-}
+

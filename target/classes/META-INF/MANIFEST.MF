@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: Teji
+Build-Jdk: 13-ea
+Implementation-Title: Blog
+Implementation-Version: 1.0-SNAPSHOT
+Implementation-Vendor-Id: com.sg
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/Blog
+Created-By: Maven Integration for Eclipse
+

@@ -4,6 +4,7 @@
  */
 package com.sg.blog.data;
 
+import com.sg.blog.models.Hashtag;
 import com.sg.blog.models.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -59,7 +60,14 @@ public class BlogUserDaoDatabaseImpl implements BlogUserDao {
 
         @Override
         public User mapRow(ResultSet rs, int i) throws SQLException {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        	 User us = new User();
+             us.setUserId((rs.getInt("user_Id")));
+             us.setFirstName((rs.getString("first_Name")));
+             us.setLastName(rs.getString("last_Name"));
+             us.setEmail(rs.getString("email"));
+             us.setPassword(rs.getString("password"));
+             return us;
+        
         }
     
     }
