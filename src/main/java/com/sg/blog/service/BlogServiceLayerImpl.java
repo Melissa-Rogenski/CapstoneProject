@@ -10,6 +10,7 @@ import com.sg.blog.data.BlogUserDao;
 import com.sg.blog.models.Hashtag;
 import com.sg.blog.models.Post;
 import com.sg.blog.models.User;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,22 +35,33 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
     
     @Override
     public List<Post> home() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return postDao.getAllPosts();
     }
 
     @Override
     public List<Post> getPosts(PostQueryContext query) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return postDao.getAllPosts(query);
     }
 
     @Override
     public Post getPostById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return postDao.getPostById(id);
     }
 
     @Override
     public Post addPost(PostRequestContext request) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Post post = new Post();
+        post.setTitle(request.getTitle());
+        post.setContent(request.getContent());
+        if(request.getScheduledDate() == null || request.getExpirationDate() == null){
+            post.setPostTime(LocalDateTime.now());
+        } else {
+            post.setPostTime(request.getScheduledDate());
+            post.setScheduledDate(request.getScheduledDate());
+            post.setExpirationDate(request.getExpirationDate());
+        }
+        
+        return postDao.addPost(post);
     }
 
     @Override
@@ -99,5 +111,17 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
     
     private void validatePostRequest(PostRequestContext request){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.   
+    }
+
+    
+    /**
+     * Takes in a PostRequestContext and calls userDao to return User object
+     * associated with the userId.
+     * 
+     * @param request
+     * @return User object associated with id
+     */
+    private User getUserForRequest(PostRequestContext request){
+        return userDao.getUserById(request.getUserId());
     }
 }

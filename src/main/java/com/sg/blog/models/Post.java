@@ -19,7 +19,7 @@ public class Post {
     private LocalDateTime postTime;
     private LocalDateTime scheduledDate;
     private LocalDateTime expirationDate;
-    private int userId;
+    private User user;
     private List<Hashtag> hashtags;
 
     public int getPostId() {
@@ -70,12 +70,12 @@ public class Post {
         this.expirationDate = expirationDate;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Hashtag> getHashtags() {
@@ -88,15 +88,15 @@ public class Post {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + this.postId;
-        hash = 97 * hash + Objects.hashCode(this.title);
-        hash = 97 * hash + Objects.hashCode(this.content);
-        hash = 97 * hash + Objects.hashCode(this.postTime);
-        hash = 97 * hash + Objects.hashCode(this.scheduledDate);
-        hash = 97 * hash + Objects.hashCode(this.expirationDate);
-        hash = 97 * hash + this.userId;
-        hash = 97 * hash + Objects.hashCode(this.hashtags);
+        int hash = 5;
+        hash = 37 * hash + this.postId;
+        hash = 37 * hash + Objects.hashCode(this.title);
+        hash = 37 * hash + Objects.hashCode(this.content);
+        hash = 37 * hash + Objects.hashCode(this.postTime);
+        hash = 37 * hash + Objects.hashCode(this.scheduledDate);
+        hash = 37 * hash + Objects.hashCode(this.expirationDate);
+        hash = 37 * hash + Objects.hashCode(this.user);
+        hash = 37 * hash + Objects.hashCode(this.hashtags);
         return hash;
     }
 
@@ -115,9 +115,6 @@ public class Post {
         if (this.postId != other.postId) {
             return false;
         }
-        if (this.userId != other.userId) {
-            return false;
-        }
         if (!Objects.equals(this.title, other.title)) {
             return false;
         }
@@ -133,6 +130,9 @@ public class Post {
         if (!Objects.equals(this.expirationDate, other.expirationDate)) {
             return false;
         }
+        if (!Objects.equals(this.user, other.user)) {
+            return false;
+        }
         if (!Objects.equals(this.hashtags, other.hashtags)) {
             return false;
         }
@@ -140,5 +140,4 @@ public class Post {
     }
     
     
-
 }

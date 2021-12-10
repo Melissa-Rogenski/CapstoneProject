@@ -57,6 +57,12 @@ public class BlogController {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @PostMapping("/admin/posts/hashtag/{id}")
+    public ResponseEntity addHashtagToPost(@RequestBody Hashtag hashtag, @PathVariable int id){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    }
+    
     @PutMapping("/admin/editpost/{id}")
     public ResponseEntity editPost(@RequestBody PostRequestContext request, @PathVariable int id){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

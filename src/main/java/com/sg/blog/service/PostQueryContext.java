@@ -12,7 +12,7 @@ import java.util.Objects;
  * @author calebdiaz
  */
 public class PostQueryContext {
-    private String searchBar;
+    private String searchBar = "";
     private LocalDateTime minDate = LocalDateTime.parse("2000-01-01T00:00:00");
     private LocalDateTime maxDate = LocalDateTime.parse("2030-01-01T00:00:00");
     private int hashtagId = 0;
