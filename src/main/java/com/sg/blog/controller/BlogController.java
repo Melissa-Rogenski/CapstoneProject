@@ -105,32 +105,51 @@ public class BlogController {
     
     @DeleteMapping("/admin/deletepost/{id}")
     public ResponseEntity deletePost(@PathVariable int id){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ResponseEntity response = new ResponseEntity(HttpStatus.NOT_FOUND);
+        if (service.getPostById(id) == null) {
+            response = new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
+        } else if (service.deletePostById(id)) {
+            response = new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return response;
     }
     
     @GetMapping("/admin/users")
     public List<User> getUsers(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return service.getUsers();
     }
     
     @PostMapping("/admin/adduser")
-    public ResponseEntity<User> addUser(UserRequestContext request){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ResponseEntity<User> addUser(@RequestBody UserRequestContext request){
+        User result = service.addUser(request);
+        if (result == null) {
+            return new ResponseEntity("There was an error processing your request.", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return ResponseEntity.ok(result);
     }
     
     @PutMapping("/admin/edituser/{id}")
-    public ResponseEntity editUser(UserRequestContext request, @PathVariable int id){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ResponseEntity editUser(@RequestBody UserRequestContext request, @PathVariable int id){
+        ResponseEntity response = new ResponseEntity(HttpStatus.NOT_FOUND);
+        request.setUserId(id);
+        if (service.editUser(request)) {
+            response = new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return response;
     }
     
     @DeleteMapping("/admin/edituser/{id}")
     public ResponseEntity deleteUser(@PathVariable int id){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ResponseEntity response = new ResponseEntity(HttpStatus.NOT_FOUND);
+        if (service.deleteUserById(id)) {
+            response = new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return response;
     }
     
     @GetMapping("/admin/hashtags")
     public List<Hashtag> getHashtags(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return service.getHashtags();
     }
     
     @PostMapping("/admin/addhashtag")
@@ -144,7 +163,11 @@ public class BlogController {
     
     @DeleteMapping("/admin/deletehashtag/{id}")
     public ResponseEntity deleteHashtag(@PathVariable int id){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ResponseEntity response = new ResponseEntity(HttpStatus.NOT_FOUND);
+        if (service.deleteHashtagById(id)) {
+            response = new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return response;
     }
 
 }

@@ -22,6 +22,14 @@ public class UserRequestContext {
         return firstName;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

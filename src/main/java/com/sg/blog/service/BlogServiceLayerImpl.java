@@ -114,11 +114,14 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
 
     @Override
     public boolean editUser(UserRequestContext request) {
-        User user = new User();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        User user = userDao.getUserById(request.getUserId());
+        if(user == null){
+            return false;
+        }
+        user.setFirstName(request.getFirstName() != null ? request.getFirstName() : user.getFirstName());
+        user.setLastName(request.getLastName() != null ? request.getLastName() : user.getFirstName());
+        user.setEmail(request.getEmail() != null ? request.getEmail() : user.getEmail());
+        user.setPassword(request.getPassword() != null ? request.getPassword() : user.getPassword());
         
         return userDao.updateUser(user);
     }
