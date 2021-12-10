@@ -19,6 +19,7 @@ public class Post {
     private LocalDateTime postTime;
     private LocalDateTime scheduledDate;
     private LocalDateTime expirationDate;
+    private boolean expired;
     private User user;
     private List<Hashtag> hashtags;
 
@@ -68,6 +69,14 @@ public class Post {
 
     public void setExpirationDate(LocalDateTime expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
     }
 
     public User getUser() {

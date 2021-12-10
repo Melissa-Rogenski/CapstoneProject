@@ -43,7 +43,7 @@ public class BlogHashtagDaoDatabaseImpl implements BlogHashtagDao {
     @Override
     public Hashtag getHashtagById(int id) {
     	try {
-            final String SELECT_HASHTAG_BY_ID = "SELECT * FROM hashtag WHERE hashtag_Id = ?";
+            final String SELECT_HASHTAG_BY_ID = "SELECT * FROM hashtag WHERE hashtag_Id = ? ";
             return jdbc.queryForObject(SELECT_HASHTAG_BY_ID, new HashtagMapper(), id);
         } catch(DataAccessException ex) {
             return null;
@@ -58,7 +58,7 @@ public class BlogHashtagDaoDatabaseImpl implements BlogHashtagDao {
 
     @Override
     public boolean updateHashtag(Hashtag hashtag) {
-    	 final String UPDATE_HASHTAG = "UPDATE hashtag SET hashtag = ?"
+    	 final String UPDATE_HASHTAG = "UPDATE hashtag SET hashtag = ? "
         
     			+ "WHERE hashtag_Id= ?;";
          jdbc.update(UPDATE_HASHTAG,
@@ -69,7 +69,7 @@ public class BlogHashtagDaoDatabaseImpl implements BlogHashtagDao {
     @Override
     public boolean deleteHashtagById(int id) {
         
-        final String DELETE_HASHTAG = "DELETE FROM hashtag WHERE hashtag_id = ?";
+        final String DELETE_HASHTAG = "DELETE FROM hashtag WHERE hashtag_id = ? ";
         jdbc.update(DELETE_HASHTAG, id);
         
         return true;

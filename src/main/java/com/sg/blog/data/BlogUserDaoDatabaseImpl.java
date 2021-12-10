@@ -32,8 +32,8 @@ public class BlogUserDaoDatabaseImpl implements BlogUserDao {
 
     @Override
     public User addUser(User user) {
-    	final String INSERT_USER = "INSERT INTO user(firt_Name, last_Name, email, password) "
-                + "VALUES(?)";
+    	final String INSERT_USER = "INSERT INTO user(first_Name, last_Name, email, password) "
+                + "VALUES(?,?,?,?)";
         jdbc.update(INSERT_USER, 
                 user.getFirstName(),
                 user.getLastName(),

@@ -152,6 +152,8 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
     private void validatePostRequest(PostRequestContext request) throws InvalidDateException {
         if(request.getScheduledDate().compareTo(request.getExpirationDate()) > 0){
             throw new InvalidDateException("Post date cannot be after expiration date.");
+        } else if(request.getScheduledDate().compareTo(LocalDateTime.now()) > 0){
+            throw new InvalidDateException("Post date cannot in the past.");
         }
     }
 
