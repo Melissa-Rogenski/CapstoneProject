@@ -68,7 +68,10 @@ public class BlogHashtagDaoDatabaseImpl implements BlogHashtagDao {
     }
     @Override
     public boolean deleteHashtagById(int id) {
-        
+        final String DELETE_POST_HASHTAG = "DELETE FROM posthashtag "
+                + "WHERE hashtag_Id = ?";
+        jdbc.update(DELETE_POST_HASHTAG, id);
+  
         final String DELETE_HASHTAG = "DELETE FROM hashtag WHERE hashtag_id = ? ";
         jdbc.update(DELETE_HASHTAG, id);
         

@@ -12,6 +12,7 @@ import com.sg.blog.models.User;
 import com.sg.blog.service.PostQueryContext;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
     @Transactional
     public Post addPost(Post post) {
     	final String INSERT_POST = "INSERT INTO post(post_time, scheduled_Date, expiration_Date, expired, title, content, user_Id) "
-                + "VALUES(?)";
+                + "VALUES(?,?,?,?,?,?,?)";
         jdbc.update(INSERT_POST, 
                 post.getPostTime(),
                 post.getScheduledDate(),
@@ -125,13 +126,15 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
     @Override
     public boolean updatePost(Post post) {
         final String UPDATE_POST = "UPDATE post "
-                + "SET title = ?, content = ?, scheduled_date = ?, expiration_date = ?, expired = ?,  WHERE id = ?";
+                + "SET title = ?, content = ?, post_time = ?, scheduled_date = ?, expiration_date = ?, expired = ?, user_Id = ?  WHERE post_Id = ?";
         jdbc.update(UPDATE_POST,
                 post.getTitle(),
                 post.getContent(),
-                post.getScheduledDate(),
-                post.getExpirationDate(),
+                Timestamp.valueOf(post.getPostTime()),
+                Timestamp.valueOf(post.getScheduledDate()),
+                Timestamp.valueOf(post.getExpirationDate()),
                 post.isExpired(),
+                post.getUser().getUserId(),
                 post.getPostId());
         
         return true;
@@ -143,7 +146,7 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
                 + "WHERE ph.post_Id = ? ";
         jdbc.update(DELETE_POST_HASHTAG, id);
         
-        final String DELETE_POST = "DELETE FROM post WHERE id = ? ";
+        final String DELETE_POST = "DELETE FROM post WHERE post_Id = ? ";
         jdbc.update(DELETE_POST, id);
         
         return true;
