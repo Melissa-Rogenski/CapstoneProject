@@ -9,19 +9,19 @@ import com.sg.blog.App;
 import com.sg.blog.models.Hashtag;
 import com.sg.blog.models.Post;
 import com.sg.blog.models.User;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 /**
  *
@@ -120,5 +120,36 @@ public class UserDaoTest {
         fromDao = userDao.getUserById(user.getUserId());
         
         assertEquals(user, fromDao);
+    }
+    
+    @Test
+    public void testDeleteUser() {
+        User user = new User();
+        user.setFirstName("Melissa");
+        user.setLastName("Rogenski");
+        user.setEmail("email");
+        user.setPassword("password");
+        user = userDao.addUser(user);
+        
+        Hashtag hashtag = new Hashtag();
+        hashtag.setHashtag("TestTag");
+        hashtag = hashtagDao.addHashtag(hashtag);
+        
+        Post post = new Post();
+        post.setTitle("Test Post");
+        post.setPostTime(LocalDateTime.now());
+        post.setScheduledDate(LocalDateTime.now());
+        post.setContent("Test content for test post.");
+        post.setExpirationDate(LocalDateTime.now());
+        post.setUser(user);
+        List<Hashtag> hashtags = new ArrayList<>();
+        hashtags.add(hashtag);
+        post.setHashtags(hashtags);
+        post = postDao.addPost(post);
+        
+        userDao.deleteUserById(user.getUserId());
+        
+        User fromDao = userDao.getUserById(user.getUserId());
+        assertNull(fromDao);
     }
 }

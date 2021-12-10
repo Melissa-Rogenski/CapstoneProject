@@ -12,6 +12,7 @@ import com.sg.blog.models.User;
 import com.sg.blog.service.PostQueryContext;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,12 +126,12 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
     @Override
     public boolean updatePost(Post post) {
         final String UPDATE_POST = "UPDATE post "
-                + "SET title = ?, content = ?, scheduled_date = ?, expiration_date = ?, expired = ?  WHERE post_Id = ? ";
+               + "SET title = ?, content = ?, scheduled_date = ?, expiration_date = ?, expired = ?  WHERE post_Id = ? ";
         jdbc.update(UPDATE_POST,
                 post.getTitle(),
                 post.getContent(),
-                post.getScheduledDate(),
-                post.getExpirationDate(),
+                Timestamp.valueOf(post.getScheduledDate()),
+                Timestamp.valueOf(post.getExpirationDate()),
                 post.isExpired(),
                 post.getPostId());
         

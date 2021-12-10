@@ -73,9 +73,17 @@ public class BlogUserDaoDatabaseImpl implements BlogUserDao {
          return true;
     }
 
-    @Override
+    @Override// meeting employee room
     public boolean deleteUserById(int id) {
-    	 final String DELETE_USER = "DELETE FROM user WHERE user_id = ?";
+    	final String DELETE_POST_HASHTAG_BY_USER = "DELETE po.* FROM posthashtag po "
+                + "JOIN post p ON po.post_Id = p.post_Id WHERE p.user_Id = ?";
+        jdbc.update(DELETE_POST_HASHTAG_BY_USER, id);
+
+        final String DELETE_POST_USER = "DELETE FROM post "
+                + "WHERE user_Id = ?";
+        jdbc.update(DELETE_POST_USER, id); 
+        
+        final String DELETE_USER = "DELETE FROM user WHERE user_Id = ?";
          jdbc.update(DELETE_USER, id);
          
          return true;
