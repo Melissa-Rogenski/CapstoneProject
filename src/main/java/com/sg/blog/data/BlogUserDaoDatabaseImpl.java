@@ -62,14 +62,14 @@ public class BlogUserDaoDatabaseImpl implements BlogUserDao {
 
     @Override
     public boolean updateUser(User user) {
-    	final String UPDATE_USER = "UPDATE user SET first_Name, last_Name, email, password= ?"
-    	        
+    	final String UPDATE_USER = "UPDATE user SET first_Name = ?, last_Name = ?, email = ?, password= ? "
     			+ "WHERE user_Id = ?";
          jdbc.update(UPDATE_USER,
         		 user.getFirstName(),
         		 user.getLastName(),
         		 user.getEmail(),
-        		 user.getPassword());
+        		 user.getPassword(),
+                         user.getUserId());
          return true;
     }
 

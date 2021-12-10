@@ -11,6 +11,8 @@ import com.sg.blog.models.Post;
 import com.sg.blog.models.User;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,7 +68,6 @@ public class UserDaoTest {
         user.setLastName("Rogenski");
         user.setEmail("email@example.com");
         user.setPassword("password");
-        //user.setUserId(1);
         user = userDao.addUser(user);
         
         User fromDao = userDao.getUserById(user.getUserId());
@@ -74,4 +75,50 @@ public class UserDaoTest {
         assertEquals(user, fromDao);
     }
     
+    @Test
+    public void testGetAllUsers() {
+        User user = new User();
+        user.setFirstName("Melissa");
+        user.setLastName("R");
+        user.setEmail("email");
+        user.setPassword("password");
+        userDao.addUser(user);
+        
+        User user2 = new User();
+        user2.setFirstName("Caleb");
+        user2.setLastName("D");
+        user2.setEmail("email");
+        user2.setPassword("pass");
+        userDao.addUser(user2);
+        
+        List<User> users = userDao.getAllUsers();
+        
+        assertEquals(2, users.size());
+        assertTrue(users.contains(user));
+        assertTrue(users.contains(user2));
+    }
+    
+    @Test
+    public void testUpdateUser() {
+        User user = new User();
+        user.setFirstName("Melissa");
+        user.setLastName("Rogenski");
+        user.setEmail("email@example.com");
+        user.setPassword("password");
+        user = userDao.addUser(user);
+        
+        User fromDao = userDao.getUserById(user.getUserId());
+        
+        assertEquals(user, fromDao);
+        
+        user.setFirstName("Missy");
+        
+        userDao.updateUser(user);
+        
+        assertNotEquals(user, fromDao);
+        
+        fromDao = userDao.getUserById(user.getUserId());
+        
+        assertEquals(user, fromDao);
+    }
 }
