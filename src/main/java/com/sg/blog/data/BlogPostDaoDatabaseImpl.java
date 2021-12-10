@@ -134,6 +134,9 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
                 post.isExpired(),
                 post.getPostId());
         
+        final String DELETE_POST_HASHTAG = "DELETE FROM postHashtag "
+                + "WHERE post_Id = ?";
+        jdbc.update(DELETE_POST_HASHTAG, post.getPostId());
         insertPostHashtag(post);
         
         return true;

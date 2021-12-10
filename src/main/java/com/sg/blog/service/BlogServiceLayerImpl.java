@@ -67,11 +67,14 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
 
     @Override
     public boolean editPost(PostRequestContext request) throws InvalidDateException {
-        Post post = new Post();
+        Post post = postDao.getPostById(request.getPostId());
+        if(post == null){
+            return false;
+        }
         post.setPostId(request.getPostId());
-        post.setTitle(request.getTitle());
-        post.setContent(request.getContent());
-        post.setUser(getUserFromRequest(request));
+        post.setTitle(request.getTitle() != null ? request.getTitle() : post.getTitle());
+        post.setContent(request.getContent() != null ? request.getContent() : post.getContent());
+        post.setUser(getUserFromRequest(request) != null ? getUserFromRequest(request) : post.getUser());
         if(request.getScheduledDate() == null || request.getExpirationDate() == null){
             post.setPostTime(LocalDateTime.now());
         } else {

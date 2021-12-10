@@ -12,6 +12,7 @@ import java.util.Objects;
  * @author calebdiaz
  */
 public class UserRequestContext {
+    private int userId = 0;
     private String firstName;
     private String lastName;
     private String email;

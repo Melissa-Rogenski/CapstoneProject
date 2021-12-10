@@ -92,8 +92,15 @@ public class BlogController {
     }
     
     @PutMapping("/admin/editpost/{id}")
-    public ResponseEntity editPost(@RequestBody PostRequestContext request, @PathVariable int id){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ResponseEntity editPost(@RequestBody PostRequestContext request, @PathVariable int id) throws InvalidDateException{
+        ResponseEntity response = new ResponseEntity(HttpStatus.NOT_FOUND);
+        request.setPostId(id);
+        if (service.getPostById(id) == null) {
+            response = new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
+        } else if (service.editPost(request)) {
+            response = new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return response;
     }
     
     @DeleteMapping("/admin/deletepost/{id}")

@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author calebdiaz
  */
 public class PostRequestContext {
-    private int postId;
+    private int postId = 0;
     private String title;
     private String content;
     private LocalDateTime scheduledDate = null;
