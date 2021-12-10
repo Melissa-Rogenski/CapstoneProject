@@ -126,7 +126,11 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
     @Override
     public boolean updatePost(Post post) {
         final String UPDATE_POST = "UPDATE post "
+<<<<<<< HEAD
                 + "SET title = ?, content = ?, post_time = ?, scheduled_date = ?, expiration_date = ?, expired = ?, user_Id = ?  WHERE post_Id = ?";
+=======
+                + "SET title = ?, content = ?, scheduled_date = ?, expiration_date = ?, expired = ?  WHERE post_Id = ? ";
+>>>>>>> 0a4cb3269e9ebbca18b96550a94915655e0adb10
         jdbc.update(UPDATE_POST,
                 post.getTitle(),
                 post.getContent(),
@@ -136,6 +140,8 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
                 post.isExpired(),
                 post.getUser().getUserId(),
                 post.getPostId());
+        
+        insertPostHashtag(post);
         
         return true;
     }

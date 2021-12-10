@@ -11,6 +11,7 @@ import com.sg.blog.models.Hashtag;
 import com.sg.blog.models.Post;
 import com.sg.blog.models.User;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -52,7 +53,7 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
         post.setUser(getUserFromRequest(request));
-        if(request.getScheduledDate() == null || request.getExpirationDate() == null){
+        if(request.getScheduledDate() == null && request.getExpirationDate() == null){
             post.setPostTime(LocalDateTime.now());
         } else {
             validatePostRequest(request);
@@ -139,6 +140,25 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
     }
 
     @Override
+    public boolean addHashtagToPost(int hashtagId, int postId) {
+        Hashtag hashtag = hashtagDao.getHashtagById(hashtagId);
+        if(hashtag == null){
+            return false;
+        }
+        
+        List<Hashtag> hashtags = new ArrayList<>();
+        hashtags.add(hashtag);
+        
+        Post post = postDao.getPostById(postId);
+        if(post == null){
+            return false;
+        }
+        
+        post.setHashtags(hashtags);
+        return postDao.updatePost(post);
+    }
+    
+    @Override
     public boolean deleteHashtagById(int id) {
         if(hashtagDao.getHashtagById(id) == null){
             return false;
@@ -148,10 +168,20 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
     }
     
     private void validatePostRequest(PostRequestContext request) throws InvalidDateException {
-        if(request.getScheduledDate().compareTo(request.getExpirationDate()) > 0){
-            throw new InvalidDateException("Post date cannot be after expiration date.");
-        } else if(request.getScheduledDate().compareTo(LocalDateTime.now()) > 0){
-            throw new InvalidDateException("Post date cannot in the past.");
+        if((request.getScheduledDate() != null) && (request.getExpirationDate() != null)){
+            if(request.getScheduledDate().compareTo(request.getExpirationDate()) > 0){
+                throw new InvalidDateException("Post date cannot be after expiration date.");
+            } else if(request.getScheduledDate().compareTo(LocalDateTime.now()) < 0){
+                throw new InvalidDateException("Post date cannot in the past.");
+            }
+        } else if (request.getScheduledDate() != null){
+            if(request.getScheduledDate().compareTo(LocalDateTime.now()) < 0){
+                throw new InvalidDateException("Post date cannot in the past.");
+            }
+        } else if (request.getExpirationDate() != null){
+            if(request.getExpirationDate().compareTo(LocalDateTime.now()) < 0){
+                throw new InvalidDateException("Expiration date cannot in the past.");
+            }
         }
     }
 

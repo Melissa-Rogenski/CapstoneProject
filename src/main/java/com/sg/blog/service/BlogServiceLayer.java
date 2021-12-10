@@ -122,6 +122,16 @@ public interface BlogServiceLayer {
     Hashtag addHashtag(Hashtag hashtag);
     
     /**
+     * Takes in a hashtag record id and post record id PK and calls 
+     * dao method to create postHashtag record in database.
+     * 
+     * @param int hashtagId
+     * @param int postId
+     * @return 
+     */
+    boolean addHashtagToPost(int hashtagId, int postId);
+    
+    /**
      * Takes in an id corresponding to a hashtag record and calls hashtagDao
      * to delete the record.
      * 
