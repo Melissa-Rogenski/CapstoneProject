@@ -61,7 +61,7 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
 
     @Override
     public List<Post> getAllPosts() {
-    	final String SELECT_ALL_POSTS = "SELECT * FROM posts "
+    	final String SELECT_ALL_POSTS = "SELECT * FROM post "
                 + "WHERE expired = false;";
         List<Post> posts = jdbc.query(SELECT_ALL_POSTS, new PostMapper());
         addUserAndHashtagsToPosts(posts);

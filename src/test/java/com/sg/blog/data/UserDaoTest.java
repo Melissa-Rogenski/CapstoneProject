@@ -25,13 +25,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
  *
  * @author mroge
  */
-/*@RunWith(SpringJUnit4ClassRunner.class)
-
-@WebAppConfiguration
-
-@ContextConfiguration(locations = {"classpath:applicationContext*.xml", "classpath:spring-servlet.xml"})
-*/public class UserDaoTest {
-    /*@Autowired
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = App.class)
+public class UserDaoTest {
+    @Autowired
     BlogHashtagDao hashtagDao;
     
     @Autowired
@@ -43,7 +40,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
     public UserDaoTest() {
     }
     
-    /*@Before
+    @Before
     public void setUp() {
         
         List<Post> posts = postDao.getAllPosts();
@@ -60,8 +57,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
         for(User user : users) {
             userDao.deleteUserById(user.getUserId());
         }
-    }*/
-    /*
+    }
+    
     @Test
     public void testAddGetUser() {
         User user = new User();
@@ -75,6 +72,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
         User fromDao = userDao.getUserById(user.getUserId());
         
         assertEquals(user, fromDao);
-    }*/
+    }
     
 }
