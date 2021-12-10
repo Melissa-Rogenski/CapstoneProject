@@ -11,7 +11,9 @@ import com.sg.blog.service.BlogServiceLayer;
 import com.sg.blog.service.PostQueryContext;
 import com.sg.blog.service.PostRequestContext;
 import com.sg.blog.service.UserRequestContext;
+import java.util.ArrayList;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +45,11 @@ public class BlogController {
     
     @GetMapping("/home/posts")
     public ResponseEntity<List<Post>> getPosts(@RequestBody PostQueryContext query){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Post> result = service.getPosts(query);
+        if (result == null) {
+            return new ResponseEntity("There was an error processing your request.", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return ResponseEntity.ok(result);
     }
     
     @GetMapping("/post/details/{id}")

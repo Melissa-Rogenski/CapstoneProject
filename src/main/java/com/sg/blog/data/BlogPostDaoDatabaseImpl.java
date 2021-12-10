@@ -98,13 +98,11 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
                         + "WHERE h.hashtag_Id = ? "
                         + "AND (post_time BETWEEN ? AND ?)";
                 posts = jdbc.query(SELECT_ALL_POSTS_BY_QUERY, new PostMapper(), query.getHashtagId(),
-                        "%"+query.getSearchBar()+"%", "%"+query.getSearchBar()+"%", 
                         query.getMinDate(), query.getMaxDate());
         } else {
                  final String SELECT_ALL_POSTS_BY_QUERY = "SELECT * FROM post p "
                         + "WHERE (post_time BETWEEN ? AND ?)";
-                posts = jdbc.query(SELECT_ALL_POSTS_BY_QUERY, new PostMapper(), query.getHashtagId(),
-                        "%"+query.getSearchBar()+"%", "%"+query.getSearchBar()+"%", 
+                posts = jdbc.query(SELECT_ALL_POSTS_BY_QUERY, new PostMapper(), 
                         query.getMinDate(), query.getMaxDate());           
         }
         addUserAndHashtagsToPosts(posts);
