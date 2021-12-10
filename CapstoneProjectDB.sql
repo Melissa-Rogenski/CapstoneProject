@@ -4,10 +4,10 @@ USE CapstoneProjectDB;
 
 CREATE TABLE user (
 	user_Id INT PRIMARY KEY AUTO_INCREMENT,
-    first_Name varchar(25),
-	last_Name varchar(25),
-	email varchar(50),
-	password varchar(25)
+    first_Name varchar(25) NOT NULL,
+	last_Name varchar(25) NOT NULL,
+	email varchar(50) NOT NULL,
+	password varchar(25) NOT NULL
     );
     
 INSERT INTO user(user_Id, first_Name, last_Name, email, password) VALUES
@@ -28,7 +28,7 @@ CREATE TABLE post (
     
 CREATE TABLE hashtag (
 	hashtag_Id INT PRIMARY KEY AUTO_INCREMENT,
-	hashtag varchar(25)
+	hashtag varchar(25) NOT NULL
 );
 
 INSERT INTO hashtag(hashtag) VALUES
