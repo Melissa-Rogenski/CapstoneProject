@@ -12,7 +12,6 @@ import com.sg.blog.models.Post;
 import com.sg.blog.models.User;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -26,7 +25,6 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
     private BlogUserDao userDao;
     private BlogHashtagDao hashtagDao;
 
-    @Autowired
     public BlogServiceLayerImpl(BlogPostDao postDao, BlogUserDao userDao, BlogHashtagDao hashtagDao) {
         this.postDao = postDao;
         this.userDao = userDao;
