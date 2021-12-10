@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- *
+ * Object created to request relevant info for a post record to be added to the database.
+ * 
  * @author calebdiaz
  */
 public class PostRequestContext {
