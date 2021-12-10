@@ -16,6 +16,6 @@ public interface BlogUserDao {
     User getUserById(int id);
     List<User> getAllUsers();
     boolean updateUser(User user);
-    boolean deleteUserById(int id);
+    void deleteUserById(int id);
 
 }

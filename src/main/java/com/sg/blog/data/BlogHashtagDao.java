@@ -16,6 +16,6 @@ public interface BlogHashtagDao {
     Hashtag getHashtagById(int id);
     List<Hashtag> getAllHashtags();
     boolean updateHashtag(Hashtag hashtag);
-    boolean deleteHashtagById(int id);
+    void deleteHashtagById(int id);
 
 }

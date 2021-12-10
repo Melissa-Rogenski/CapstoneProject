@@ -4,6 +4,7 @@
  */
 package com.sg.blog.data;
 
+import com.sg.blog.data.BlogHashtagDaoDatabaseImpl.HashtagMapper;
 import com.sg.blog.models.Hashtag;
 import com.sg.blog.models.Post;
 import com.sg.blog.models.User;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -34,12 +36,24 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
     
     @Override
     public Post addPost(Post post) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	final String INSERT_POST = "INSERT INTO post(post_time, scheduled_Date, expiration_Date, title, content) "
+                + "VALUES(?)";
+        jdbc.update(INSERT_POST, 
+                post.getPostTime(),
+                post.getScheduledDate(),
+                post.getExpirationDate(),
+                post.getTitle(),
+                post.getContent());
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        post.setPostId(newId);
+        return post;
     }
+    
 
     @Override
     public List<Post> getAllPosts() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	final String SELECT_ALL_POSTS = "SELECT * FROM posts";
+        return jdbc.query(SELECT_ALL_POSTS, new PostMapper());
     }
 
     @Override
@@ -49,7 +63,12 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
 
     @Override
     public Post getPostById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	try {
+            final String SELECT_POST_BY_ID = "SELECT * FROM post WHERE post_Id = ?";
+            return jdbc.queryForObject(SELECT_POST_BY_ID, new PostMapper(), id);
+        } catch(DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
