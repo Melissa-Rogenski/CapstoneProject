@@ -164,13 +164,13 @@ public class PostDaoTest {
         
         post.setTitle("Test Post2");
            
-        //postDao.updatePost(post);
+        postDao.updatePost(post);
         
         assertNotEquals(post, fromDao);
         
-        //fromDao = postDao.getPostById(post.getPostId());
+        fromDao = postDao.getPostById(post.getPostId());
         
-        //assertEquals(post, fromDao);
+        assertEquals(post, fromDao);
     }
     
     @Test
