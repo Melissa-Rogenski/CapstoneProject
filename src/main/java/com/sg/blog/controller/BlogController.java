@@ -31,6 +31,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class BlogController {
     
     private BlogServiceLayer service;
+
+    public BlogController(BlogServiceLayer service) {
+        this.service = service;
+    }
     
     @GetMapping("/home/index")
     public List<Post> home(){
