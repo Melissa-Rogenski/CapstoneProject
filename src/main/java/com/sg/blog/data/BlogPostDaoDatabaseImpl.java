@@ -130,8 +130,8 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
         jdbc.update(UPDATE_POST,
                 post.getTitle(),
                 post.getContent(),
-                Timestamp.valueOf(post.getScheduledDate()),
-                Timestamp.valueOf(post.getExpirationDate()),
+                post.getScheduledDate(),
+                post.getExpirationDate(),
                 post.isExpired(),
                 post.getPostId());
         
