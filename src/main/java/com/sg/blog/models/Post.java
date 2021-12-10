@@ -5,6 +5,7 @@
 package com.sg.blog.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ public class Post {
     private LocalDateTime expirationDate;
     private boolean expired;
     private User user;
-    private List<Hashtag> hashtags;
+    private List<Hashtag> hashtags = new ArrayList<>();
 
     public int getPostId() {
         return postId;

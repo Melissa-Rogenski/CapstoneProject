@@ -8,10 +8,10 @@ import com.sg.blog.models.Hashtag;
 import com.sg.blog.models.Post;
 import com.sg.blog.models.User;
 import com.sg.blog.service.BlogServiceLayer;
+import com.sg.blog.service.InvalidDateException;
 import com.sg.blog.service.PostQueryContext;
 import com.sg.blog.service.PostRequestContext;
 import com.sg.blog.service.UserRequestContext;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,24 +53,42 @@ public class BlogController {
     }
     
     @GetMapping("/post/details/{id}")
-    public ResponseEntity<Post> getPostById(int id){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ResponseEntity<Post> getPostById(@PathVariable int id){
+        Post result = service.getPostById(id);
+        if (result == null) {
+            return new ResponseEntity("There was an error processing your request.", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return ResponseEntity.ok(result);
     }
     
     @GetMapping("/admin/posts")
     public ResponseEntity<List<Post>> getAdminPosts(@RequestBody PostQueryContext query){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Post> result = service.getPosts(query);
+        if (result == null) {
+            return new ResponseEntity("There was an error processing your request.", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return ResponseEntity.ok(result);
     }
     
     @PostMapping("/admin/posts")
-    public ResponseEntity<Post> addPost(@RequestBody PostRequestContext request){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ResponseEntity<Post> addPost(@RequestBody PostRequestContext request) throws InvalidDateException {
+        Post result = service.addPost(request);
+        if (result == null) {
+            return new ResponseEntity("There was an error processing your request.", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return ResponseEntity.ok(result);
+        
     }
     
-    @PostMapping("/admin/posts/hashtag/{id}")
-    public ResponseEntity addHashtagToPost(@RequestBody Hashtag hashtag, @PathVariable int id){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+    @PostMapping("/admin/post-{post_Id}/hashtag/{id}")
+    public ResponseEntity addHashtagToPost(@PathVariable int post_Id, @PathVariable int id){
+        ResponseEntity response = new ResponseEntity(HttpStatus.NOT_FOUND);
+        if (service.getPostById(id) == null) {
+            response = new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
+        } else if (service.addHashtagToPost(id, post_Id)) {
+            response = new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return response;
     }
     
     @PutMapping("/admin/editpost/{id}")
@@ -110,7 +128,11 @@ public class BlogController {
     
     @PostMapping("/admin/addhashtag")
     public ResponseEntity<Hashtag> addHashtag(@RequestBody Hashtag hashtag){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Hashtag result = service.addHashtag(hashtag);
+        if (result == null) {
+            return new ResponseEntity("There was an error processing your request.", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return ResponseEntity.ok(result);
     }
     
     @DeleteMapping("/admin/deletehashtag/{id}")

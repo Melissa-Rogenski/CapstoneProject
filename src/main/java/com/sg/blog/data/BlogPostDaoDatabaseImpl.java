@@ -41,7 +41,7 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
     @Transactional
     public Post addPost(Post post) {
     	final String INSERT_POST = "INSERT INTO post(post_time, scheduled_Date, expiration_Date, expired, title, content, user_Id) "
-                + "VALUES(?)";
+                + "VALUES(?,?,?,?,?,?,?)";
         jdbc.update(INSERT_POST, 
                 post.getPostTime(),
                 post.getScheduledDate(),
@@ -125,7 +125,7 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
     @Override
     public boolean updatePost(Post post) {
         final String UPDATE_POST = "UPDATE post "
-                + "SET title = ?, content = ?, scheduled_date = ?, expiration_date = ?, expired = ?,  WHERE id = ?";
+                + "SET title = ?, content = ?, scheduled_date = ?, expiration_date = ?, expired = ?  WHERE post_Id = ? ";
         jdbc.update(UPDATE_POST,
                 post.getTitle(),
                 post.getContent(),
@@ -133,6 +133,8 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
                 post.getExpirationDate(),
                 post.isExpired(),
                 post.getPostId());
+        
+        insertPostHashtag(post);
         
         return true;
     }
@@ -143,7 +145,7 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
                 + "WHERE ph.post_Id = ? ";
         jdbc.update(DELETE_POST_HASHTAG, id);
         
-        final String DELETE_POST = "DELETE FROM post WHERE id = ? ";
+        final String DELETE_POST = "DELETE FROM post WHERE post_Id = ? ";
         jdbc.update(DELETE_POST, id);
         
         return true;
