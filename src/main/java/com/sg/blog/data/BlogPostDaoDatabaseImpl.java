@@ -154,8 +154,8 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
     // Private helper methods
     private User getUserForPost(Post post){
         final String SELECT_USER_FOR_POST = "SELECT u.* FROM user u "
-                + "JOIN post p ON u.id = p.user_Id WHERE u.id = ? ";
-        return jdbc.queryForObject(SELECT_USER_FOR_POST, new UserMapper(), post.getUser().getUserId());
+                + "JOIN post p ON u.user_Id = p.user_Id WHERE p.post_Id = ? ";
+        return jdbc.queryForObject(SELECT_USER_FOR_POST, new UserMapper(), post.getPostId());
     }
     
     private List<Hashtag> getHashtagsForPost(Post post){
@@ -187,8 +187,12 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
         	        	 Post pt = new Post();
         	            pt.setPostId(rs.getInt("post_Id"));
         	            pt.setPostTime(rs.getTimestamp("post_time").toLocalDateTime());
+                            try{
         	            pt.setScheduledDate(rs.getTimestamp("scheduled_date").toLocalDateTime());
+                            } catch (Exception e){}
+                            try{
         	            pt.setExpirationDate(rs.getTimestamp("expiration_date").toLocalDateTime());
+                            } catch (Exception e){}
                             pt.setExpired(rs.getBoolean("expired"));
         	            pt.setTitle(rs.getString("title"));
         	            pt.setContent(rs.getString("content"));

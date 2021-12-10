@@ -38,7 +38,7 @@ public class BlogController {
     
     @GetMapping("/home/index")
     public List<Post> home(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return service.home();
     }
     
     @GetMapping("/home/posts")
