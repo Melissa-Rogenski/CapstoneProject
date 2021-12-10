@@ -67,11 +67,14 @@ public class BlogHashtagDaoDatabaseImpl implements BlogHashtagDao {
          return true;
     }
     @Override
-    public void deleteHashtagById(int id) {
+    public boolean deleteHashtagById(int id) {
         
         final String DELETE_HASHTAG = "DELETE FROM hashtag WHERE hashtag_id = ?";
         jdbc.update(DELETE_HASHTAG, id);
+        
+        return true;
     }
+    
     // Public implementation of RowMapper
     
     public static final class HashtagMapper implements RowMapper<Hashtag>{

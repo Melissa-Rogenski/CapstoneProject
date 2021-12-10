@@ -47,9 +47,6 @@ public interface BlogUserDao {
      * @return true if successful, false if not
      */
     boolean updateUser(User user);
-<<<<<<< HEAD
-    void deleteUserById(int id);
-=======
     
     /**
      * Takes in an id PK and deletes record from database corresponding to PK
@@ -58,6 +55,5 @@ public interface BlogUserDao {
      * @return 
      */
     boolean deleteUserById(int id);
->>>>>>> b77f482fef7171b195b6890d567b89d2e1e180fd
 
 }

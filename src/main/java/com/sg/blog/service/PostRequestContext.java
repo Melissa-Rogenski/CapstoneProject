@@ -13,12 +13,21 @@ import java.util.Objects;
  * @author calebdiaz
  */
 public class PostRequestContext {
+    private int postId;
     private String title;
     private String content;
-    private LocalDateTime scheduledDate;
-    private LocalDateTime expirationDate;
+    private LocalDateTime scheduledDate = null;
+    private LocalDateTime expirationDate = null;
     private int userId;
 
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
+    }
+    
     public String getTitle() {
         return title;
     }
@@ -61,12 +70,13 @@ public class PostRequestContext {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + Objects.hashCode(this.title);
-        hash = 37 * hash + Objects.hashCode(this.content);
-        hash = 37 * hash + Objects.hashCode(this.scheduledDate);
-        hash = 37 * hash + Objects.hashCode(this.expirationDate);
-        hash = 37 * hash + this.userId;
+        int hash = 7;
+        hash = 89 * hash + this.postId;
+        hash = 89 * hash + Objects.hashCode(this.title);
+        hash = 89 * hash + Objects.hashCode(this.content);
+        hash = 89 * hash + Objects.hashCode(this.scheduledDate);
+        hash = 89 * hash + Objects.hashCode(this.expirationDate);
+        hash = 89 * hash + this.userId;
         return hash;
     }
 
@@ -82,6 +92,9 @@ public class PostRequestContext {
             return false;
         }
         final PostRequestContext other = (PostRequestContext) obj;
+        if (this.postId != other.postId) {
+            return false;
+        }
         if (this.userId != other.userId) {
             return false;
         }
@@ -99,6 +112,7 @@ public class PostRequestContext {
         }
         return true;
     }
+
     
     
 }

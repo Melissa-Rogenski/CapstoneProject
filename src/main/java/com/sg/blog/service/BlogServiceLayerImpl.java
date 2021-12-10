@@ -49,13 +49,15 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
     }
 
     @Override
-    public Post addPost(PostRequestContext request) {
+    public Post addPost(PostRequestContext request) throws InvalidDateException {
         Post post = new Post();
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
+        post.setUser(getUserFromRequest(request));
         if(request.getScheduledDate() == null || request.getExpirationDate() == null){
             post.setPostTime(LocalDateTime.now());
         } else {
+            validatePostRequest(request);
             post.setPostTime(request.getScheduledDate());
             post.setScheduledDate(request.getScheduledDate());
             post.setExpirationDate(request.getExpirationDate());
@@ -65,52 +67,92 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
     }
 
     @Override
-    public boolean editPost(PostRequestContext request) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean editPost(PostRequestContext request) throws InvalidDateException {
+        Post post = new Post();
+        post.setPostId(request.getPostId());
+        post.setTitle(request.getTitle());
+        post.setContent(request.getContent());
+        post.setUser(getUserFromRequest(request));
+        if(request.getScheduledDate() == null || request.getExpirationDate() == null){
+            post.setPostTime(LocalDateTime.now());
+        } else {
+            validatePostRequest(request);
+            post.setPostTime(request.getScheduledDate());
+            post.setScheduledDate(request.getScheduledDate());
+            post.setExpirationDate(request.getExpirationDate());
+        }
+        
+        return postDao.updatePost(post);
     }
 
     @Override
     public boolean deletePostById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(postDao.getPostById(id) == null){
+            return false;
+        } else {
+            return postDao.deletePostById(id);
+        }
     }
 
     @Override
     public List<User> getUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return userDao.getAllUsers();
     }
 
     @Override
     public User addUser(UserRequestContext request) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User user = new User();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        
+        return userDao.addUser(user);
     }
 
     @Override
     public boolean editUser(UserRequestContext request) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User user = new User();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        
+        return userDao.updateUser(user);
     }
 
     @Override
     public boolean deleteUserById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(userDao.getUserById(id) == null){
+            return false;
+        } else {
+            return userDao.deleteUserById(id);
+        }
     }
 
     @Override
     public List<Hashtag> getHashtags() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return hashtagDao.getAllHashtags();
     }
 
     @Override
     public Hashtag addHashtag(Hashtag hashtag) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return hashtagDao.addHashtag(hashtag);
     }
 
     @Override
     public boolean deleteHashtagById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(hashtagDao.getHashtagById(id) == null){
+            return false;
+        } else {
+            return hashtagDao.deleteHashtagById(id);
+        }
     }
     
-    private void validatePostRequest(PostRequestContext request){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.   
+    private void validatePostRequest(PostRequestContext request) throws InvalidDateException {
+        if(request.getScheduledDate().compareTo(request.getExpirationDate()) > 0){
+            throw new InvalidDateException("Post date cannot be after expiration date.");
+        }
     }
 
     
@@ -121,7 +163,7 @@ public class BlogServiceLayerImpl implements BlogServiceLayer {
      * @param request
      * @return User object associated with id
      */
-    private User getUserForRequest(PostRequestContext request){
+    private User getUserFromRequest(PostRequestContext request){
         return userDao.getUserById(request.getUserId());
     }
 }

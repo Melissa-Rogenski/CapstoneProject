@@ -49,7 +49,7 @@ public interface BlogServiceLayer {
      * @param request
      * @return Post object created or null
      */
-    Post addPost(PostRequestContext request);
+    Post addPost(PostRequestContext request) throws InvalidDateException;
     
     /**
      * Takes in a PostRequestContext object with fields of post record to edit
@@ -58,7 +58,7 @@ public interface BlogServiceLayer {
      * @param request
      * @return true if successful, false if not
      */
-    boolean editPost(PostRequestContext request);
+    boolean editPost(PostRequestContext request) throws InvalidDateException;
     
     /**
      * Takes in an id corresponding to a post record and calls postDao

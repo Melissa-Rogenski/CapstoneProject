@@ -105,22 +105,14 @@ public class BlogPostDaoDatabaseImpl implements BlogPostDao {
         public Post mapRow(ResultSet rs, int i) throws SQLException {
         	        	 Post pt = new Post();
         	            pt.setPostId(rs.getInt("post_Id"));
-        	            pt.setUserId(rs.getInt("user_Id"));
         	            pt.setPostTime(rs.getTimestamp("post_time").toLocalDateTime());
         	            pt.setScheduledDate(rs.getTimestamp("scheduled_date").toLocalDateTime());
         	            pt.setExpirationDate(rs.getTimestamp("expiration_date").toLocalDateTime());
         	            pt.setTitle(rs.getString("title"));
         	            pt.setContent(rs.getString("content"));
-        	             return pt;
-        	        
-        	             
-        	         
-       
-        	     	
+        	             return pt;   	
              }
-         
         }
-    
     }
     
 

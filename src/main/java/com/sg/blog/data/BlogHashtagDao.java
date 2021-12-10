@@ -43,9 +43,6 @@ public interface BlogHashtagDao {
      * @return true if successful, false if not
      */
     boolean updateHashtag(Hashtag hashtag);
-<<<<<<< HEAD
-    void deleteHashtagById(int id);
-=======
     
     /**
      * Takes in a hashtag id PK and deletes record matching id.
@@ -54,6 +51,5 @@ public interface BlogHashtagDao {
      * @return true if successful, false if not
      */
     boolean deleteHashtagById(int id);
->>>>>>> b77f482fef7171b195b6890d567b89d2e1e180fd
 
 }

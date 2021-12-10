@@ -74,9 +74,11 @@ public class BlogUserDaoDatabaseImpl implements BlogUserDao {
     }
 
     @Override
-    public void deleteUserById(int id) {
+    public boolean deleteUserById(int id) {
     	 final String DELETE_USER = "DELETE FROM user WHERE user_id = ?";
          jdbc.update(DELETE_USER, id);
+         
+         return true;
      }
     
     
